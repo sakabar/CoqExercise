@@ -72,17 +72,29 @@ Axiom mult_assoc : forall x y z, x * (y * z) = (x * y) * z.
 Axiom one_unit_l : forall x, 1 * x = x.
 Axiom inv_l : forall x, /x * x = 1.
 
+(* 自力じゃできなかった... *)
+(* 群論のサイト見た *)
 Lemma inv_r : forall x, x * / x = 1.
 Proof.
-  (* *)
-Abort.
-
-(* Qed. *)
+  intro x.
+  rewrite <- (one_unit_l (x * / x)).
+  rewrite <- (inv_l (/ x)) at 1.
+  rewrite <- (mult_assoc (/ / x) (/ x) (x * / x)).
+  rewrite (mult_assoc (/ x) x (/ x)).
+  rewrite (inv_l x).
+  rewrite one_unit_l.
+  rewrite inv_l.
+  reflexivity.
+Qed.
 
 Lemma one_unit_r : forall x, x * 1 = x.
 Proof.
-  (* ここに証明を書く *)
-Abort.
-(* Qed. *)
+  intros.
+  rewrite <- (inv_l x).
+  rewrite mult_assoc.
+  rewrite (inv_r x).
+  rewrite one_unit_l.
+  reflexivity.
+Qed.
 
 End Task10.
